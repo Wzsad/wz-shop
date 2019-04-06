@@ -19,5 +19,11 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
 	Route::get('user_addresses', 'UserAddressController@index')->name('user_addresses.index');
 	// 新增用户地址
 	Route::get('user_addresses/create', 'UserAddressController@create')->name('user_addresses.create');
+	// 编辑用户地址
+	Route::get('user_addresses/{user_address}','UserAddressController@edit')->name('user_addresses.edit');
 	Route::post('user_addresses', 'UserAddressController@store')->name('user_addresses.store');
+	// 更新用户地址
+	Route::put('user_addresses/{user_address}', 'UserAddressController@update')->name('user_addresses.update');
+	// 删除用户地址
+	Route::delete('user_addresses/{user_address}', 'UserAddressController@destory')->name('user_addresses.destory');
 });
