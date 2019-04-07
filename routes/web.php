@@ -12,7 +12,8 @@
 */
 // 必须得验证邮箱的用户才可以访问添加中间件，laravel自带的验证方法添加->middleware('verified')
 Route::get('/', 'PagesController@root')->name('root');
-
+Route::redirect('/', '/products')->name('root');
+Route::get('products', 'ProductsController@index')->name('products.index');
 Auth::routes(['verify'=>true]);
 
 Route::group(['middleware' => ['auth', 'verified']], function(){
@@ -26,4 +27,6 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
 	Route::put('user_addresses/{user_address}', 'UserAddressController@update')->name('user_addresses.update');
 	// 删除用户地址
 	Route::delete('user_addresses/{user_address}', 'UserAddressController@destory')->name('user_addresses.destory');
+
+	
 });
