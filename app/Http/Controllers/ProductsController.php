@@ -7,7 +7,7 @@ use App\Models\Product;
 
 class ProductsController extends Controller
 {
-    //
+    // 首页商品列表
     public function index(Request $request)
 	{
 	// 创建一个查询构造器
@@ -48,4 +48,25 @@ class ProductsController extends Controller
 										]
 								  ]);
 	}
+
+	/**
+	 * @Author      WangZe
+	 * @DateTime    2019-04-08
+	 * @description 商品详情
+	 * @copyright   [copyright]
+	 * @license     [license]
+	 * @version     [version]
+	 * @param       Product       $id [description]
+	 * @return      [type]            [description]
+	 */
+	public function show(Product $product,Request $request)
+	{
+		// 商品还未上架抛出错误
+		if (!$product->on_sale) {
+			throw new \Exception("商品未上架");
+		}
+
+		return view("products.show",['product'=>$product]);
+	}
+
 }
