@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('test', 'TestController@index');
 Route::get('ip', 'TestController@ip');
+Route::get('apitest', 'TestController@apitest');
 Route::post('norepeat', 'TestController@norepeat');

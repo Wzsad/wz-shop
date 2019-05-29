@@ -15,9 +15,9 @@ class TestController extends Controller
      *     produces={"application/json"},
      *     tags={"测试"},
      *     security={
- 	 *     {"passport": {}},
- 	 *     },
- 	 *     summary="Get user",
+     *     {"passport": {}},
+     *     },
+     *     summary="Get user",
      *     @SWG\Parameter(
      *         in="query",
      *         name="reason",
@@ -37,6 +37,12 @@ class TestController extends Controller
      */
     public function index(Request $request)
     {
+        $url  = 'https://free-ss.site/';
+        $opts = array('http'=>array('header'=>"User-Agent:MyAgent/1.0\r\n"));
+        $context = stream_context_create($opts);
+        $str = file_get_contents($url, false, $context);
+        dd($str);
+        die;
         return response()->json([
             'result'    => [
                 'statistics' => [
@@ -94,18 +100,18 @@ class TestController extends Controller
         $ip1 = $request->input('ip1');
         $ip2 = $request->input('ip2');
     
-        if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
+        if (getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
             $ip = getenv('HTTP_CLIENT_IP');
-        } elseif(getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
+        } elseif (getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
             $ip = getenv('HTTP_X_FORWARDED_FOR');
-        } elseif(getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
+        } elseif (getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
             $ip = getenv('REMOTE_ADDR');
-        } elseif(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown')) {
+        } elseif (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown')) {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
-        $ip = sprintf('%u',ip2long($ip));
-        $begin = sprintf('%u',ip2long('111.111.111.111'));
-        $end = sprintf('%u',ip2long('222.222.222.222'));
+        $ip = sprintf('%u', ip2long($ip));
+        $begin = sprintf('%u', ip2long('111.111.111.111'));
+        $end = sprintf('%u', ip2long('222.222.222.222'));
         if ($ip >= $begin && $ip <= $end) {
             echo '在区间范围内';
         } else {
@@ -166,4 +172,13 @@ class TestController extends Controller
         }
     }
 
+    public function apitest(Request $request)
+    {
+        $response = array(
+                        'name'  => '你好',
+                        'age'   => '18',
+                        'sex'   =>  'male'
+                    );
+        return response()->json($response);
+    }
 }
