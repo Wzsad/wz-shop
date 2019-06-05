@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Services\KafkaService;
+use App\Http\Services\ProduceService;
 
 class TestController extends Controller
 {
@@ -51,11 +52,14 @@ class TestController extends Controller
             'type'      => 'success',
             'status'    => 0
         ]);*/
+        $message = $request->input('message');
         $topic = 'test';
-        $value = "发送消息给你";
+        $value = $message;
         $url   = env('kafka_url_test');
-        $kafka = new KafkaService();
-        $msg   = $kafka->Producer($topic, $value, $url);
+        // $kafka = new KafkaService();
+        // $kafka = new ProduceService();
+        $msg   = app(KafkaService::class)->Producer($topic, $value, $url);
+        // $msg   = app(ProduceService::class)->produce();
         dd($msg);
         die;
     }

@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Log;
 
+use App\Http\Services\KafkaService;
+
 class ConsumerKafka extends Command
 {
     /**
@@ -40,8 +42,10 @@ class ConsumerKafka extends Command
     public function handle()
     {
          $this->log('开始监听消息...');
-        app('kafkaService')->consumer($group = env('KAFKA_GROUP'), $topics = env('KAFKA_TOPIC'), $url = env('KAFKA_URL'));
-        return $this;
+         // $KafkaService = new KafkaService();
+         $KafkaService = app(KafkaService::class);
+         $KafkaService->consumer($group = env('KAFKA_GROUP'), $topics = env('KAFKA_TOPIC'), $url = env('KAFKA_URL'));
+         return $this;
     }
     private function log($msg = '')
     {

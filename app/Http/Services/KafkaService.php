@@ -57,7 +57,7 @@ class KafkaService
         $consumer = new \Kafka\Consumer();
         $consumer->start(function ($topic, $part, $message) {
             echo "receive a message...\n";
-            app('consumerKafka')->consumerData($message['message']['value']);  //你的接收处理逻辑
+            // app('consumerKafka')->consumerData($message['message']['value']);  //你的接收处理逻辑
             var_dump($message['message']['value']);
         });
     }
