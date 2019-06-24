@@ -13,11 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+$api = app('Dingo\Api\Routing\Router');
 
-Route::get('test', 'TestController@index');
-Route::get('ip', 'TestController@ip');
-Route::get('apitest', 'TestController@apitest');
-Route::post('norepeat', 'TestController@norepeat');
+// 定义一个版本分组，这种定义方式有利于后续为相同端点新增版本支持
+// 一个分组返回多个版本，只需要传递一个版本数组['v1','v2']
+// 通过在第二个参数上传递一个属性数组，你也可以将此组视为特定框架的标准组
+$api->version('v1', function ($api) {
+    /*$api->group(['middleware' => 'foo'], function ($api) {
+        // Endpoints registered here will have the "foo" middleware applied.
+    });*/
+    // $api->get('users/{id}', 'App\Api\Controllers\UserController@show');
+    $api->get('test', 'App\Api\Controllers\TestController@index');
+    $api->get('json', 'App\Api\Controllers\TestController@apitest');
+});

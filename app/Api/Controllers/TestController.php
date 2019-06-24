@@ -2,10 +2,12 @@
 
 namespace App\Api\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Sync;
+use DB;
 
-class TestController extends Controller
+class TestController extends BaseController
 {
      /**
      * @SWG\Get(
@@ -37,12 +39,12 @@ class TestController extends Controller
      */
     public function index(Request $request)
     {
-        $url  = 'https://free-ss.site/';
-        $opts = array('http'=>array('header'=>"User-Agent:MyAgent/1.0\r\n"));
-        $context = stream_context_create($opts);
-        $str = file_get_contents($url, false, $context);
-        dd($str);
-        die;
+        // $url  = 'https://free-ss.site/';
+        // $opts = array('http'=>array('header'=>"User-Agent:MyAgent/1.0\r\n"));
+        // $context = stream_context_create($opts);
+        // $str = file_get_contents($url, false, $context);
+        // dd($str);
+        // die;
         return response()->json([
             'result'    => [
                 'statistics' => [
@@ -172,13 +174,42 @@ class TestController extends Controller
         }
     }
 
+    /**
+     * api 测试接口
+     * @Author   Wz
+     * @DateTime 2019-06-24T18:41:33+0800
+     * @param    Request                  $request [description]
+     * @return   [type]                            [description]
+     *
+     * @SWG\GET(
+     *     path="/api/json",
+     *     description="测试使用的接口",
+     *     operationId="api.dashboard.index",
+     *     produces={"application/json"},
+     *     tags={"数组"},
+     *     summary="Array",
+     *     @SWG\Parameter(
+     *         in="body",
+     *         name="data",
+     *         description="数组",
+     *         required=true,
+     *         @SWG\Schema(ref="#")
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Dashboard overview."
+     *     )
+     * )
+     */
     public function apitest(Request $request)
     {
-        $response = array(
-                        'name'  => '你好',
-                        'age'   => '18',
-                        'sex'   =>  'male'
-                    );
-        return response()->json($response);
+        // 响应一个数组
+        $sync   = Sync::findOrFail(1);
+        // $result = $this->response->array($sync->toArray());
+        // 响应一个元素
+        $result = $this->response->item($sync, new UserTransformer);
+        // 响应一个元素集合
+        // $result = $this->response->collection($users, new UserTransformer);
+        return $result;
     }
 }
