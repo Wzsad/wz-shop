@@ -23,6 +23,6 @@ $api->version('v1', function ($api) {
         // Endpoints registered here will have the "foo" middleware applied.
     });*/
     // $api->get('users/{id}', 'App\Api\Controllers\UserController@show');
-    $api->get('test', 'App\Api\Controllers\TestController@index');
+    $api->post('test', 'App\Api\Controllers\TestController@index');
     $api->get('json', 'App\Api\Controllers\TestController@apitest');
 });

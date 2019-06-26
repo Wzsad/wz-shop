@@ -45,19 +45,9 @@ class TestController extends BaseController
         // $str = file_get_contents($url, false, $context);
         // dd($str);
         // die;
-        return response()->json([
-            'result'    => [
-                'statistics' => [
-                    'users' => [
-                        'name'  => 'Name',
-                        'email' => 'user@example.com'
-                    ]
-                ],
-            ],
-            'message'   => '',
-            'type'      => 'success',
-            'status'    => 0
-        ]);
+        $result['time']  = time();
+        $result['value'] = md5($request['action'] . $request['userid'] . $request['apiPassword'] . time());
+        return $this->response->array($result);
     }
     /**
      * @Author    WangZe
