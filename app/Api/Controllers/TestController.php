@@ -193,6 +193,9 @@ class TestController extends BaseController
      */
     public function apitest(Request $request)
     {
+        $result = DB::connection('sqlsrv')->select('SELECT * FROM [FreeHost].[FreeHost].[FreeHost_USER]');
+        dd($result);
+        die;
         // 响应一个数组
         $sync   = Sync::findOrFail(1);
         // $result = $this->response->array($sync->toArray());
