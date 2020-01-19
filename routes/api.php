@@ -24,5 +24,6 @@ $api->version('v1', function ($api) {
     });*/
     // $api->get('users/{id}', 'App\Api\Controllers\UserController@show');
     $api->post('test', 'App\Api\Controllers\TestController@index');
+    $api->post('keytest', 'App\Api\Controllers\TestController@indexkey');
     $api->get('json', 'App\Api\Controllers\TestController@apitest');
 });

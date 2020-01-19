@@ -15,7 +15,7 @@ class TestController extends BaseController
      *     description="返回测试内容",
      *     operationId="api.dashboard.index",
      *     produces={"application/json"},
-     *     tags={"测试"},
+     *     tags={"秘钥生成"},
      *     security={
      *     {"passport": {}},
      *     },
@@ -47,6 +47,20 @@ class TestController extends BaseController
         // die;
         $result['time']  = time();
         $result['value'] = md5($request['action'] . $request['userid'] . $request['apiPassword'] . time());
+        return $this->response->array($result);
+    }
+    /**
+     * oem访问秘钥
+     * @Author   Wz
+     * @DateTime 2019-11-02T15:09:26+0800
+     * @param    Request                  $request [description]
+     * @return   [type]                            [description]
+     */
+    public function indexkey(Request $request)
+    {
+        $result['time']  = time();
+        $str = $request['module'] . 'zkeys.api@2019' . $request['action'] . $request['userid'] . $request['apiPassword'] . time();
+        $result['sign'] = md5($str);
         return $this->response->array($result);
     }
     /**
@@ -165,18 +179,14 @@ class TestController extends BaseController
     }
 
     /**
-     * api 测试接口
-     * @Author   Wz
-     * @DateTime 2019-06-24T18:41:33+0800
-     * @param    Request                  $request [description]
-     * @return   [type]                            [description]
+     *                           
      *
      * @SWG\GET(
      *     path="/api/json",
      *     description="测试使用的接口",
      *     operationId="api.dashboard.index",
      *     produces={"application/json"},
-     *     tags={"数组"},
+     *     tags={"返回数据"},
      *     summary="Array",
      *     @SWG\Parameter(
      *         in="body",
@@ -187,7 +197,7 @@ class TestController extends BaseController
      *     ),
      *     @SWG\Response(
      *         response=200,
-     *         description="Dashboard overview."
+     *         description="返回成功"
      *     )
      * )
      */
