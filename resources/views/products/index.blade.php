@@ -32,7 +32,7 @@
 			</select>
 			</div>
 		</div>
-		
+
 	</form>
 	<!-- 筛选组件结束 -->
 <div class="row products-list">

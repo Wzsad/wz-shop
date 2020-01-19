@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Description:
+ * @Version: 2.0
+ * @Autor: Wz
+ * @Date: 2019-04-26 09:12:46
+ * @LastEditors  : Wz
+ * @LastEditTime : 2020-01-19 15:12:47
+ */
 
 namespace App\Exceptions;
 
