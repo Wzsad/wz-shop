@@ -2,14 +2,13 @@
 
 namespace App\Api\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Sync;
-use DB;
+use Illuminate\Http\Request;
+use ReflectionClass;
 
 class TestController extends BaseController
 {
-     /**
+    /**
      * @SWG\Get(
      *     path="/api/test",
      *     description="返回测试内容",
@@ -58,8 +57,8 @@ class TestController extends BaseController
      */
     public function indexkey(Request $request)
     {
-        $result['time']  = time();
-        $str = $request['module'] . 'zkeys.api@2019' . $request['action'] . $request['userid'] . $request['apiPassword'] . time();
+        $result['time'] = time();
+        $str            = $request['module'] . 'zkeys.api@2019' . $request['action'] . $request['userid'] . $request['apiPassword'] . time();
         $result['sign'] = md5($str);
         return $this->response->array($result);
     }
@@ -105,7 +104,7 @@ class TestController extends BaseController
     {
         $ip1 = $request->input('ip1');
         $ip2 = $request->input('ip2');
-    
+
         if (getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
             $ip = getenv('HTTP_CLIENT_IP');
         } elseif (getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
@@ -115,9 +114,9 @@ class TestController extends BaseController
         } elseif (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown')) {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
-        $ip = sprintf('%u', ip2long($ip));
+        $ip    = sprintf('%u', ip2long($ip));
         $begin = sprintf('%u', ip2long('111.111.111.111'));
-        $end = sprintf('%u', ip2long('222.222.222.222'));
+        $end   = sprintf('%u', ip2long('222.222.222.222'));
         if ($ip >= $begin && $ip <= $end) {
             echo '在区间范围内';
         } else {
@@ -172,14 +171,14 @@ class TestController extends BaseController
                     $result[] = $key;
                 }
             }
-            echo(json_encode($result));
+            echo (json_encode($result));
         } else {
             return false;
         }
     }
 
     /**
-     *                           
+     *
      *
      * @SWG\GET(
      *     path="/api/json",
@@ -203,16 +202,6 @@ class TestController extends BaseController
      */
     public function apitest(Request $request)
     {
-        $result = DB::connection('sqlsrv')->select('SELECT * FROM [FreeHost].[FreeHost].[FreeHost_USER]');
-        dd($result);
-        die;
-        // 响应一个数组
-        $sync   = Sync::findOrFail(1);
-        // $result = $this->response->array($sync->toArray());
-        // 响应一个元素
-        $result = $this->response->item($sync, new UserTransformer);
-        // 响应一个元素集合
-        // $result = $this->response->collection($users, new UserTransformer);
-        return $result;
+        $reflection = new ReflectionClass('StripeBiller');
     }
 }
